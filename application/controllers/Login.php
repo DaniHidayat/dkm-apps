@@ -32,7 +32,13 @@
 
         echo "sukses login";
         }else{
-            echo "password salah";
+            $this->session->set_flashdata('errLog', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Password atau Username Salah!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+            redirect('Login');
         }
 
       
@@ -60,13 +66,19 @@
         $cek = $this->m_login->cek_data('tb_admin', $where)->num_rows();
         if($cek < 1){        
         if($konfirmasipassword !== $password ){
-            echo "password tidak Sama ";
+                $this->session->set_flashdata('errPass', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Password Tidak sama!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+                redirect('Login/Register');
         }else {
             $this->m_login->input_data($data, 'tb_admin');
             redirect('Login');
          }
         }else{
-            echo "username sudah ada";
+            echo "Sa;aj";
         }
 
       
