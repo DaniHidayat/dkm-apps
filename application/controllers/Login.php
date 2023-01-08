@@ -21,16 +21,26 @@
             'password' =>
             md5($password)
         );
-        $cek = $this->m_login->cek_data('tb_admin', $where)->num_rows();
-
-        if($cek > 0){
-            $data_session = array(
-                'nama' => $username,
-                'status' => 'Login'
-            );
+        $cek = $this->m_login->cek_data('tb_users', $where);
+        $xcadmin = $cek->row_array();
+        if($cek->num_rows() > 0){
+            if($xcadmin['is_admin'] === "TRUE"){
+                $data_session = array(
+                    'nama' => $username,
+                    'status' => 'Login',
+                    'is_admin' => TRUE
+                );
+            }else{
+                $data_session = array(
+                    'nama' => $username,
+                    'status' => 'Login',
+                    'is_admin' => FALSE
+                );
+            }
+            
             $this->session->set_userdata($data_session);
 
-        echo "sukses login";
+            redirect('Dashboard');
         }else{
             $this->session->set_flashdata('errLog', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Password atau Username Salah!
@@ -102,7 +112,7 @@
         );
         $cek = $this->m_login->cek_data('tb_admin', $where)->num_rows();
 
-     
+        
         if ($cek >= 1) {
             if ($konfirmasipassword !== $password) {
                 echo "password tidak Sama ";
