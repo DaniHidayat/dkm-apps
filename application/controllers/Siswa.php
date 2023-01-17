@@ -90,5 +90,9 @@ class Siswa extends CI_Controller {
             </div>');
             redirect('siswa');
         }
+        function excel(){
+        $data['siswa'] = $this->Siswa_Model->get_data('tb_mahasiswa')->result();
+        $this->load->view('laporan_excel', $data);
+        }
     }
    
